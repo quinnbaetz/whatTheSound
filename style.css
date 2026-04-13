@@ -124,6 +124,18 @@ h3 {
   color: var(--text-muted);
   border: 2px solid var(--border);
 }
+
+.end-game-row {
+  padding: 0 20px env(safe-area-inset-bottom, 12px);
+  padding-bottom: max(env(safe-area-inset-bottom), 12px);
+}
+
+.btn-end-game {
+  width: 100%;
+  font-size: 0.85rem;
+  min-height: 44px;
+  padding: 10px 16px;
+}
 .btn-ghost:hover { border-color: var(--accent); color: var(--accent); }
 
 .btn-full { width: 100%; }
@@ -462,7 +474,7 @@ h3 {
 .action-buttons {
   display: flex;
   gap: 12px;
-  padding: 16px 20px env(safe-area-inset-bottom, 20px);
+  padding: 16px 20px 10px;
   flex-shrink: 0;
 }
 
