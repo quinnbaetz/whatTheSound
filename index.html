@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="theme-color" content="#0f0f1a" />
+  <title>What The Sound!</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- ── Setup Screen ──────────────────────────────────────────────────── -->
+  <section class="screen" id="screen-setup">
+    <div class="game-title">
+      <h1>What The Sound!</h1>
+      <p class="tagline">No words. Just sounds. Go!</p>
+    </div>
+
+    <details class="how-to-play">
+      <summary>How to Play</summary>
+      <div class="how-to-play-body">
+        <ol>
+          <li>One player is the <strong>Sounder</strong> — they see the word on screen.</li>
+          <li>The Sounder must get others to guess using <strong>sounds only</strong> — no words, no humming song lyrics, no mouthing, no pointing.</li>
+          <li>Press <strong>Next ✓</strong> when the team guesses correctly (earns a point).</li>
+          <li>Press <strong>Skip ✗</strong> to pass on a word (no penalty).</li>
+          <li>You have <strong>60 seconds</strong> per turn. Go!</li>
+          <li>Words get harder as rounds go on. Good luck. 🔊</li>
+        </ol>
+      </div>
+    </details>
+
+    <div>
+      <div class="section-label">Number of Players</div>
+      <div class="player-count-grid">
+        <button class="count-btn" data-count="1">1</button>
+        <button class="count-btn" data-count="2">2</button>
+        <button class="count-btn" data-count="3">3</button>
+        <button class="count-btn" data-count="4">4</button>
+        <button class="count-btn" data-count="5">5</button>
+        <button class="count-btn" data-count="6">6</button>
+        <button class="count-btn" data-count="7">7</button>
+        <button class="count-btn" data-count="8">8</button>
+      </div>
+    </div>
+
+    <div id="player-names-label" class="section-label hidden">Player Names</div>
+    <div id="player-names" class="hidden"></div>
+
+    <div class="spacer"></div>
+
+    <button class="btn btn-primary btn-full" id="btn-start">Start Game →</button>
+  </section>
+
+  <!-- ── Round Intro Screen ────────────────────────────────────────────── -->
+  <section class="screen" id="screen-intro">
+    <div class="intro-icon">🔊</div>
+    <h2 id="intro-heading">Your turn!</h2>
+    <p class="intro-subtitle" id="intro-subtitle">Tap when you're ready to see your word!</p>
+    <button class="btn btn-primary intro-ready-btn" id="btn-ready">I'm Ready — Show My Word</button>
+  </section>
+
+  <!-- ── Playing Screen ───────────────────────────────────────────────── -->
+  <section class="screen" id="screen-play">
+    <div class="play-header">
+      <div class="play-header-info">
+        <span class="play-round-label" id="play-round-label">Round 1</span>
+        <span class="play-player-name" id="play-player-name">Player</span>
+      </div>
+      <span class="play-score-badge" id="play-score-badge">0 pts</span>
+    </div>
+
+    <div class="word-card-area">
+      <div class="word-card">
+        <span class="difficulty-badge tier-1" id="difficulty-badge">Easy</span>
+        <div class="word-text" id="word-text">Loading…</div>
+      </div>
+    </div>
+
+    <div class="timer-area">
+      <div class="timer-ring-wrap" id="timer-wrap">
+        <svg viewBox="0 0 120 120">
+          <circle class="timer-ring-bg" cx="60" cy="60" r="52" />
+          <circle class="timer-ring-progress" id="timer-progress" cx="60" cy="60" r="52" />
+        </svg>
+        <div class="timer-number" id="timer-number">60</div>
+      </div>
+    </div>
+
+    <div class="action-buttons">
+      <button class="btn btn-danger" id="btn-skip">✗ Skip</button>
+      <button class="btn btn-success" id="btn-next">✓ Next</button>
+    </div>
+
+    <div style="padding: 0 20px 12px; text-align: center;">
+      <button class="btn btn-ghost" style="font-size:0.8rem; min-height:40px; padding: 8px 16px; width:100%;" id="btn-end-game">End Game</button>
+    </div>
+  </section>
+
+  <!-- ── Turn End Screen ──────────────────────────────────────────────── -->
+  <section class="screen" id="screen-turn-end">
+    <div class="turn-result-icon" id="turn-result-icon">🎉</div>
+    <div>
+      <div class="turn-score-big" id="turn-score-big">+0</div>
+      <div class="turn-score-label" id="turn-score-label">words guessed!</div>
+    </div>
+
+    <div class="scoreboard" id="scoreboard"></div>
+
+    <div class="mt-auto" style="width:100%; padding-top: 16px;">
+      <button class="btn btn-primary btn-full" id="btn-next-turn">Next →</button>
+    </div>
+  </section>
+
+  <!-- ── Game Over Screen ─────────────────────────────────────────────── -->
+  <section class="screen" id="screen-game-over">
+    <div class="winner-icon">🏆</div>
+    <h2 id="game-over-title">Winner!</h2>
+
+    <div id="winner-section">
+      <div class="winner-name" id="winner-name" style="font-size:1.8rem; font-weight:900;"></div>
+    </div>
+
+    <div>
+      <div class="final-score-display" id="final-score">0</div>
+      <div class="final-score-label" id="final-score-label">total words guessed</div>
+    </div>
+
+    <div class="scoreboard" id="final-scoreboard" style="width:100%; max-width:360px;"></div>
+
+    <div class="mt-auto" style="width:100%; padding-top: 16px;">
+      <button class="btn btn-primary btn-full" id="btn-play-again">Play Again</button>
+    </div>
+  </section>
+
+  <script type="module" src="app.js"></script>
+</body>
+</html>
