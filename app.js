@@ -37,7 +37,6 @@ const playRoundLabel  = document.getElementById('play-round-label');
 const playPlayerName  = document.getElementById('play-player-name');
 const playScoreBadge  = document.getElementById('play-score-badge');
 const wordText        = document.getElementById('word-text');
-const diffBadge       = document.getElementById('difficulty-badge');
 const timerNumber     = document.getElementById('timer-number');
 const timerProgress   = document.getElementById('timer-progress');
 const timerWrap       = document.getElementById('timer-wrap');
@@ -182,10 +181,6 @@ function showWord(word) {
   state.currentWord = word;
   wordText.textContent = word.text;
 
-  const tierNames = { 1: 'Easy', 2: 'Medium', 3: 'Hard', 4: 'Expert' };
-  diffBadge.textContent = tierNames[word.tier];
-  diffBadge.className = `difficulty-badge tier-${word.tier}`;
-
   // Restart card animation
   wordText.closest('.word-card').style.animation = 'none';
   requestAnimationFrame(() => {
@@ -233,12 +228,28 @@ function updateScoreBadge() {
 }
 
 // ─── Timer ────────────────────────────────────────────────────────────────────
+const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+
+function playTick() {
+  const osc = audioCtx.createOscillator();
+  const gain = audioCtx.createGain();
+  osc.connect(gain);
+  gain.connect(audioCtx.destination);
+  osc.type = 'sine';
+  osc.frequency.setValueAtTime(880, audioCtx.currentTime);
+  gain.gain.setValueAtTime(0.3, audioCtx.currentTime);
+  gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.12);
+  osc.start(audioCtx.currentTime);
+  osc.stop(audioCtx.currentTime + 0.12);
+}
+
 function startTimer() {
   updateTimerDisplay(TIMER_DURATION);
   clearInterval(state.timerInterval);
   state.timerInterval = setInterval(() => {
     state.timeLeft--;
     updateTimerDisplay(state.timeLeft);
+    if (state.timeLeft <= 5 && state.timeLeft > 0) playTick();
     if (state.timeLeft <= 0) {
       clearInterval(state.timerInterval);
       endTurn();
